@@ -1,0 +1,6 @@
+Longitudinal Force = Ft+Fd+Frr+Fg
+Aerodynamic Drag = Fd (-Cdrag*V*|V|)
+Rolling Resistance = Frr (-Crr*V)
+Gravity = Fg (m*g*sin0)
+Traction = Ft (Twheel/Rwheel) (Twheel = Torque applied to wheel)
+(Rwheel = Radius of the wheel)

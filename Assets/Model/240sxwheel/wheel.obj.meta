@@ -1,0 +1,103 @@
+fileFormatVersion: 2
+guid: f640673ab4093e54d98240b3a626aed5
+timeCreated: 1468758340
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: nis_240sx_94_wheel_blur_lip_#_650_vertices_600_faces
+    100002: nis_240sx_94_wheel_blur_rim_#_121_vertices_226_faces
+    100004: nis_240sx_94_wheel_chrome_rim_#_29_vertices_50_faces
+    100006: nis_240sx_94_wheel_inner_rim_#_301_vertices_336_faces
+    100008: nis_240sx_94_wheel_rim_#_1509_vertices_1487_faces
+    100010: nis_240sx_94_wheel_tire_#_523_vertices_783_faces
+    100012: //RootNode
+    400000: nis_240sx_94_wheel_blur_lip_#_650_vertices_600_faces
+    400002: nis_240sx_94_wheel_blur_rim_#_121_vertices_226_faces
+    400004: nis_240sx_94_wheel_chrome_rim_#_29_vertices_50_faces
+    400006: nis_240sx_94_wheel_inner_rim_#_301_vertices_336_faces
+    400008: nis_240sx_94_wheel_rim_#_1509_vertices_1487_faces
+    400010: nis_240sx_94_wheel_tire_#_523_vertices_783_faces
+    400012: //RootNode
+    2300000: nis_240sx_94_wheel_blur_lip_#_650_vertices_600_faces
+    2300002: nis_240sx_94_wheel_blur_rim_#_121_vertices_226_faces
+    2300004: nis_240sx_94_wheel_chrome_rim_#_29_vertices_50_faces
+    2300006: nis_240sx_94_wheel_inner_rim_#_301_vertices_336_faces
+    2300008: nis_240sx_94_wheel_rim_#_1509_vertices_1487_faces
+    2300010: nis_240sx_94_wheel_tire_#_523_vertices_783_faces
+    3300000: nis_240sx_94_wheel_blur_lip_#_650_vertices_600_faces
+    3300002: nis_240sx_94_wheel_blur_rim_#_121_vertices_226_faces
+    3300004: nis_240sx_94_wheel_chrome_rim_#_29_vertices_50_faces
+    3300006: nis_240sx_94_wheel_inner_rim_#_301_vertices_336_faces
+    3300008: nis_240sx_94_wheel_rim_#_1509_vertices_1487_faces
+    3300010: nis_240sx_94_wheel_tire_#_523_vertices_783_faces
+    4300000: nis_240sx_94_wheel_blur_lip_#_650_vertices_600_faces
+    4300002: nis_240sx_94_wheel_blur_rim_#_121_vertices_226_faces
+    4300004: nis_240sx_94_wheel_chrome_rim_#_29_vertices_50_faces
+    4300006: nis_240sx_94_wheel_inner_rim_#_301_vertices_336_faces
+    4300008: nis_240sx_94_wheel_rim_#_1509_vertices_1487_faces
+    4300010: nis_240sx_94_wheel_tire_#_523_vertices_783_faces
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
