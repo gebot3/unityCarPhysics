@@ -27,7 +27,7 @@ public class Engine : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X) && currentGear <carData.gearRatio.Length-2)
         {
             if (!gearShiftSound.isPlaying)
                 gearShiftSound.Play();
@@ -35,7 +35,7 @@ public class Engine : MonoBehaviour {
             currentGear++;
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && currentGear>0)
         {
             if (!gearShiftSound.isPlaying)
                 gearShiftSound.Play();
