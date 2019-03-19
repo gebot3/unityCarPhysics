@@ -1,19 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
+public struct EngineData {
+    public float maximumEngineTorque;
+    public float minimumEngineTorque;
+    public float minimumEngineTorqueAfterMaxRPM;
+    public float maxTorqueRPM;
+    public float redline;
+}
+
 public class Engine : MonoBehaviour {
     Car carData;
     public float engineTorque;
     public float wheelTorque;
-    public float maxEngineTorque;
-    public float engineFriction;
+    public EngineData engineData;
     public int currentGear;
     public float currentRPM;
     public float maxRPM;
     public float carSpeed,maxCarSpeed;
     public float driftTimer;
     public WheelCollider[] wheelsDrive;
-    public WheelCollider[] steeringDrive;   
+    public WheelCollider[] steeringDrive;
+
+    public float engineTurnOverRate;
 
     public bool automaticTransmission;
 
@@ -96,7 +106,21 @@ public class Engine : MonoBehaviour {
 
     void updateTorque()
     {
-        engineTorque = maxEngineTorque;
+        engineTurnOverRate = carData.getRigidbody().velocity.magnitude * 60 * carData.gearRatio[currentGear] * carData.gearRatio[6] / (2*Mathf.PI * carData.wheelRadius);
+        currentRPM = (2 * engineTurnOverRate * Mathf.PI / 60) * (30/Mathf.PI);
+        float engineRPMRange = 0;
+        if (currentRPM < 1000)
+            currentRPM = 1000;
+        if (currentRPM > engineData.redline)
+            currentRPM = engineData.redline;
+        if (engineData.maxTorqueRPM > currentRPM) {
+            engineRPMRange = engineData.maxTorqueRPM - 1000;
+            engineRPMRange = (currentRPM / engineRPMRange) * 100;
+            engineTorque = engineData.minimumEngineTorque + ((engineRPMRange/100) * engineData.maximumEngineTorque);
+        }
+        if (engineData.maxTorqueRPM < currentRPM) {
+            engineTorque = engineData.minimumEngineTorqueAfterMaxRPM;
+        }
     }
 
     void Braking()
@@ -116,8 +140,8 @@ public class Engine : MonoBehaviour {
     void Acceleration()
     {
         wheelTorque = (engineTorque * carData.throttle * carData.gearRatio[currentGear] * carData.gearRatio[6]);
-        
-        currentRPM = Mathf.Abs(((wheelsDrive[0].rpm + wheelsDrive[1].rpm) / 2.0f) * carData.gearRatio[currentGear] * carData.gearRatio[6]);
+
+        //currentRPM = Mathf.Abs(((wheelsDrive[0].rpm + wheelsDrive[1].rpm) / 2.0f) * carData.gearRatio[currentGear] * carData.gearRatio[6]);
         pitchModifier = (currentRPM / maxRPM) * 2.0f;
         if (currentRPM < maxRPM /*&& carSpeed<maxCarSpeed*/)
         {

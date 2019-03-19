@@ -12,7 +12,7 @@ public class Car : MonoBehaviour {
     public Transform centreGLocation;
     public float maxSpeed;
 
-    [Header("Tramsmission")]
+    [Header("Transmission")]
     public float[] gearRatio;
 
     [Header("Wheels")]
@@ -40,28 +40,16 @@ public class Car : MonoBehaviour {
     }
     //PhysicsFunction
 
+    public Rigidbody getRigidbody() {
+        return rB;
+    }
+
     void FixedUpdate()
     {
         steeringAngle = maxSteeringAngle * Input.GetAxis("Horizontal");
         turning(steeringAngle);
         if (!throttleAssist)
             throttle = Input.GetAxis("Vertical");
-        else
-        {
-            throttleAssistTimer += Time.fixedDeltaTime;
-            if (throttleAssistTimer > 0.1f)
-            {
-                throttleAssistTimer = 0.0f;
-                if (throttle < 1 && Input.GetAxis("Vertical")>0.1f)
-                {
-                    throttle += 0.05f; 
-                }
-                if (Input.GetAxis("Vertical")<0.1f && throttle >=0.1f)
-                {
-                    throttle = 0.0f;
-                }
-            }
-        }
         if (Input.GetAxis("Vertical") < 0.0f)
             braking = true;
         else
