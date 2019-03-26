@@ -44,7 +44,7 @@ public class Car : MonoBehaviour {
         return rB;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         steeringAngle = maxSteeringAngle * Input.GetAxis("Horizontal");
         turning(steeringAngle);
@@ -89,8 +89,8 @@ public class Car : MonoBehaviour {
     {
         for (int i = 0; i < rWheels.Length; i++)
         {
-            rWheelsmesh[i].transform.Rotate(rWheels[i].GetComponent<WheelCollider>().rpm / 60 * 360 * Time.fixedDeltaTime , 0.0f, 0.0f);
-            fWheelsmesh[i].transform.Rotate(fWheels[i].GetComponent<WheelCollider>().rpm / 60 * 360 * Time.fixedDeltaTime, 0.0f, 0.0f);
+            rWheelsmesh[i].transform.Rotate(rWheels[i].GetComponent<WheelCollider>().rpm * 60 * Time.fixedDeltaTime , 0.0f, 0.0f);
+            fWheelsmesh[i].transform.Rotate(fWheels[i].GetComponent<WheelCollider>().rpm * 60 * Time.fixedDeltaTime, 0.0f, 0.0f);
         }
     }
 }

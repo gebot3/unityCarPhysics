@@ -23,8 +23,6 @@ public class Engine : MonoBehaviour {
     public WheelCollider[] wheelsDrive;
     public WheelCollider[] steeringDrive;
 
-    public float engineTurnOverRate;
-
     public bool automaticTransmission;
 
     public AudioSource engineSound, gearShiftSound;
@@ -75,7 +73,7 @@ public class Engine : MonoBehaviour {
     {
         updateTorque();
         Acceleration();
-        Drift();
+        //Drift();
         if (automaticTransmission)
         {
             if (currentRPM > maxRPM - 500.0f && currentGear<5)
@@ -106,20 +104,14 @@ public class Engine : MonoBehaviour {
 
     void updateTorque()
     {
-        engineTurnOverRate = carData.getRigidbody().velocity.magnitude * 60 * carData.gearRatio[currentGear] * carData.gearRatio[6] / (2*Mathf.PI * carData.wheelRadius);
-        currentRPM = (2 * engineTurnOverRate * Mathf.PI / 60) * (30/Mathf.PI);
         float engineRPMRange = 0;
-        if (currentRPM < 1000)
-            currentRPM = 1000;
-        if (currentRPM > engineData.redline)
-            currentRPM = engineData.redline;
         if (engineData.maxTorqueRPM > currentRPM) {
             engineRPMRange = engineData.maxTorqueRPM - 1000;
             engineRPMRange = (currentRPM / engineRPMRange) * 100;
             engineTorque = engineData.minimumEngineTorque + ((engineRPMRange/100) * engineData.maximumEngineTorque);
         }
         if (engineData.maxTorqueRPM < currentRPM) {
-            engineTorque = engineData.minimumEngineTorqueAfterMaxRPM;
+            engineTorque = engineData.maximumEngineTorque;
         }
     }
 
@@ -127,11 +119,14 @@ public class Engine : MonoBehaviour {
     {
         if (carData.braking)
         {
-            
             wheelsDrive[0].brakeTorque = carData.brakeTorque;
             wheelsDrive[1].brakeTorque = carData.brakeTorque;
+            steeringDrive[0].brakeTorque = carData.brakeTorque;
+            steeringDrive[1].brakeTorque = carData.brakeTorque;
         } else
         {
+            wheelsDrive[0].brakeTorque = 0;
+            wheelsDrive[1].brakeTorque = 0;
             steeringDrive[0].brakeTorque = 0;
             steeringDrive[1].brakeTorque = 0;
         }
@@ -140,22 +135,22 @@ public class Engine : MonoBehaviour {
     void Acceleration()
     {
         wheelTorque = (engineTorque * carData.throttle * carData.gearRatio[currentGear] * carData.gearRatio[6]);
-
-        //currentRPM = Mathf.Abs(((wheelsDrive[0].rpm + wheelsDrive[1].rpm) / 2.0f) * carData.gearRatio[currentGear] * carData.gearRatio[6]);
+        currentRPM = Mathf.Abs((wheelsDrive[0].rpm + wheelsDrive[1].rpm) / 2.0f * carData.gearRatio[currentGear] * carData.gearRatio[6]);
+        if (currentRPM < 1000) {
+            currentRPM = 1000;
+        }
+        if (currentRPM >= engineData.redline)
+            wheelTorque = 0;
         pitchModifier = (currentRPM / maxRPM) * 2.0f;
-        if (currentRPM < maxRPM /*&& carSpeed<maxCarSpeed*/)
+        if (true /*&& carSpeed<maxCarSpeed*/)
         {
             if (currentGear == 0)
                 wheelTorque = -1 * wheelTorque;
-            wheelsDrive[0].motorTorque = wheelTorque ;
-            wheelsDrive[1].motorTorque = wheelTorque ;
+            wheelsDrive[0].motorTorque = wheelTorque * wheelsDrive[0].radius;
+            wheelsDrive[1].motorTorque = wheelTorque * wheelsDrive[0].radius;
 
             wheelsDrive[0].brakeTorque = 0;
             wheelsDrive[1].brakeTorque = 0;
-        } else
-        {
-            wheelsDrive[0].motorTorque = 0;
-            wheelsDrive[1].motorTorque = 0;
         }
     }
 }
