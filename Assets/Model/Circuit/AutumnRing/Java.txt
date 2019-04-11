@@ -1,0 +1,69 @@
+
+
+public class Track_name extends Track 
+ { 
+ Trigger[] checkPoint; 
+ float startTime = 0; 
+ int displayTimer; 
+ float timerStarted = 0.0f; 
+ Text time; 
+ int currentLap = 0; 
+ int endLap = 1; // количество кругов 
+
+ public Track_name () 
+ { 
+ checkPoint = new Trigger[1]; 
+ checkPoint[0] = new Trigger( map, null, new Vector3( 204.4, -8.73, 73.01), 20, 20, 1, "Start" ); 
+ addNotification( checkPoint[0].trigger, EVENT_TRIGGER_ON, EVENT_SAME, null, "line_Start" ); 
+ } 
+
+ public void enter( GameState prev_state ) 
+ { 
+ super.enter( prev_state ); 
+ time     = osd.createText( "", Frontend.smallFont, Text.ALIGN_LEFT, 0.6, -0.80); 
+ } 
+
+ public void animate() 
+ { 
+ float timer = System.simTime() - timerStarted; 
+ super.animate(); 
+ if( displayTimer ) 
+ { 
+ float timer = System.simTime() - timerStarted; 
+ time.changeText( "Time: " + String.timeToString( timer, String.TCF_NOHOURS ) + " s" ); 
+ } 
+ } 
+
+ public void line_Start( GameRef obj_ref, int event, String param ) 
+ { 
+
+ float timer = System.simTime() - timerStarted; 
+ time.changeText( "Time: " + String.timeToString( timer, String.TCF_NOHOURS ) + " s" ); 
+ currentLap += 1; 
+
+ if( player.car) 
+ { 
+ if( player.car.getSpeedSquare() < 0.01 ) 
+ { 
+ startTime = System.simTime(); 
+ startTimer(); 
+ } 
+ } 
+
+ if( currentLap > endLap ) 
+ { 
+ pauseTimer(); 
+ } 
+ } 
+
+ public void startTimer() 
+ { 
+ timerStarted=System.simTime(); 
+ displayTimer = 1; 
+ } 
+
+ public void pauseTimer() 
+ { 
+ displayTimer = 0; 
+ } 
+ }
