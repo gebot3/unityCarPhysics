@@ -3,26 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour {
+    private Transform targetTransform;
+    private Rigidbody targetRigidbody;
+    public GameObject target;
+    public float distance = 3.0f;
+    public float height = 3.0f;
+    public float damping = 5.0f;
+    public float smoothTime = 0.3f;
+    public bool smoothRotation = true;
+    public bool followBehind = true;
+    public float rotationDamping = 10.0f;
 
-    public Camera cameraMain;
-    public Transform[] cameraPosition;
-    int cameraPositionNumber, currentPosition = 0;
-
-    void Start()
-    {
-        cameraPositionNumber = cameraPosition.Length-1;
+    private void Awake() {
+        updateTargetTransform();
+        updateTargetRigidbody();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            if (currentPosition < cameraPositionNumber)
-                currentPosition++;
-            else
-                currentPosition=0;
-            cameraMain.transform.localPosition = cameraPosition[currentPosition].localPosition;
-            cameraMain.transform.localRotation = cameraPosition[currentPosition].localRotation;
+    void updateTargetTransform() {
+        targetTransform = target.transform;
+    }
+
+    void updateTargetRigidbody() {
+        targetRigidbody = target.GetComponent<Rigidbody>();
+    }
+
+    void LateUpdate() {
+        Vector3 velocity = targetRigidbody.velocity;
+        Vector3 wantedPosition;
+        if (followBehind)
+            wantedPosition = targetTransform.TransformPoint(0, height, -distance);
+        else
+            wantedPosition = targetTransform.TransformPoint(0, height, distance);
+
+        //transform.position = wantedPosition;
+        transform.position = Vector3.SmoothDamp(transform.position, wantedPosition ,ref velocity,smoothTime,200,Time.smoothDeltaTime);
+
+        if (smoothRotation) {
+            Quaternion wantedRotation = Quaternion.LookRotation(targetTransform.position - transform.position, targetTransform.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime * rotationDamping);
         }
+        else transform.LookAt(targetTransform, targetTransform.up);
     }
 }
