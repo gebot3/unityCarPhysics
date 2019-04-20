@@ -11,6 +11,7 @@ public class Car : MonoBehaviour {
     public bool  throttleAssist;
     public Transform centreGLocation;
     public float maxSpeed;
+    public CarLights carLight;
 
     [Header("Transmission")]
     public float[] gearRatio;
@@ -50,11 +51,15 @@ public class Car : MonoBehaviour {
         turning(steeringAngle);
         if (!throttleAssist)
             throttle = Input.GetAxis("Vertical");
-        if (Input.GetAxis("Vertical") < 0.0f)
+        if (Input.GetAxis("Vertical") < 0.0f) {
             braking = true;
+            carLight.braking();
+        }
         else
-            if (braking)
+        if (braking) {
+            carLight.notBraking();
             braking = false;
+        }
         rotateWheels();
     }
 

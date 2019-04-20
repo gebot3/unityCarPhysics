@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour {
-    private Transform targetTransform;
+    public Transform targetTransform;
     private Rigidbody targetRigidbody;
     public GameObject target;
     public float distance = 3.0f;
@@ -15,12 +15,7 @@ public class CameraControl : MonoBehaviour {
     public float rotationDamping = 10.0f;
 
     private void Awake() {
-        updateTargetTransform();
         updateTargetRigidbody();
-    }
-
-    void updateTargetTransform() {
-        targetTransform = target.transform;
     }
 
     void updateTargetRigidbody() {
@@ -35,12 +30,11 @@ public class CameraControl : MonoBehaviour {
         else
             wantedPosition = targetTransform.TransformPoint(0, height, distance);
 
-        //transform.position = wantedPosition;
-        transform.position = Vector3.SmoothDamp(transform.position, wantedPosition ,ref velocity,smoothTime,200,Time.smoothDeltaTime);
+            transform.position = Vector3.SmoothDamp(transform.position, wantedPosition ,ref velocity,smoothTime);
 
         if (smoothRotation) {
             Quaternion wantedRotation = Quaternion.LookRotation(targetTransform.position - transform.position, targetTransform.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime * rotationDamping);
+            transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.smoothDeltaTime * rotationDamping);
         }
         else transform.LookAt(targetTransform, targetTransform.up);
     }

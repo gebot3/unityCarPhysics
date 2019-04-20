@@ -50,6 +50,18 @@ public class Engine : MonoBehaviour {
             carData.throttle = 0.0f;
             currentGear--;
         }
+        if (pitchModifier > 0.0f)
+        {
+            float newSoundPitch = 0.0f;
+            if (0.4f + pitchModifier / 2.0f <= 1.4f) {
+                newSoundPitch = 0.4f + pitchModifier / 2.0f;
+            }
+            else {
+                newSoundPitch = 1.4f;
+            }
+            engineSound.pitch = Mathf.Lerp(engineSound.pitch, newSoundPitch, 0.1f);
+        }
+        carSpeed = GetComponent<Rigidbody>().velocity.magnitude * 3.6f;
     }
 
     void Drift()
@@ -92,14 +104,6 @@ public class Engine : MonoBehaviour {
             }
         }
         Braking();
-        if (pitchModifier > 0.0f)
-        {
-            if (0.4f + pitchModifier/2.0f <= 1.4f)
-                engineSound.pitch = 0.4f + pitchModifier / 2.0f;
-            else
-                engineSound.pitch = 1.4f;
-        }
-        carSpeed = GetComponent<Rigidbody>().velocity.magnitude * 3.6f;
     }
 
     void updateTorque()
@@ -135,12 +139,15 @@ public class Engine : MonoBehaviour {
     void Acceleration()
     {
         wheelTorque = (engineTorque * carData.throttle * carData.gearRatio[currentGear] * carData.gearRatio[6]);
-        currentRPM = Mathf.Abs((wheelsDrive[0].rpm + wheelsDrive[1].rpm) / 2.0f * carData.gearRatio[currentGear] * carData.gearRatio[6]);
+        //currentRPM = Mathf.Abs((wheelsDrive[0].rpm + wheelsDrive[1].rpm) / 2.0f * carData.gearRatio[currentGear] * carData.gearRatio[6]);
+        currentRPM = (carData.getRigidbody().velocity.magnitude * 60 / (0.29f * 2 * Mathf.PI)) * carData.gearRatio[6] * carData.gearRatio[currentGear];
         if (currentRPM < 1000) {
             currentRPM = 1000;
         }
-        if (currentRPM >= engineData.redline)
+        if (currentRPM >= engineData.redline) {
             wheelTorque = 0;
+            currentRPM = engineData.redline;
+        }
         pitchModifier = (currentRPM / maxRPM) * 2.0f;
         if (true /*&& carSpeed<maxCarSpeed*/)
         {
@@ -148,7 +155,6 @@ public class Engine : MonoBehaviour {
                 wheelTorque = -1 * wheelTorque;
             wheelsDrive[0].motorTorque = wheelTorque * wheelsDrive[0].radius;
             wheelsDrive[1].motorTorque = wheelTorque * wheelsDrive[0].radius;
-
             wheelsDrive[0].brakeTorque = 0;
             wheelsDrive[1].brakeTorque = 0;
         }

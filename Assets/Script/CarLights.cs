@@ -23,50 +23,19 @@ public class CarLights : MonoBehaviour {
 
     public void braking()
     {
+        Debug.Log("BRAKING");
         brakeLightsOn = true;
         for (int i = 0; i < brakeLights.Length; i++)
         {
-            render = brakeLights[i].GetComponent<Renderer>();
-            if (render.material!=brakeLightMaterial)
-                render.material = brakeLightMaterial;
+            brakeLights[i].SetActive(true);
         }
     }
 
     public void notBraking()
     {
-        Material defaultMat;
-        if (car.lightsOn)
-        {
-            defaultMat = lightsOnMaterial;
-        }
-        else
-            defaultMat = lightsOffMaterial;
         for (int i = 0; i < brakeLights.Length; i++)
         {
-            render = brakeLights[i].GetComponent<Renderer>();
-            if (render.material != defaultMat)
-            {
-                render.material = defaultMat;
-            }
+            brakeLights[i].SetActive(false);
         }
-    }
-    
-    void Update()
-    {
-        /*if (car.braking)
-        {
-            braking();
-        }
-        else
-        {
-            if (brakeLightsOn)
-            {
-                notBraking();
-            }
-        }*/
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            braking();
-        if (Input.GetKeyUp(KeyCode.DownArrow))
-            notBraking();
     }
 }
