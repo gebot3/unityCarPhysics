@@ -23,7 +23,6 @@ public class CarLights : MonoBehaviour {
 
     public void braking()
     {
-        Debug.Log("BRAKING");
         brakeLightsOn = true;
         for (int i = 0; i < brakeLights.Length; i++)
         {
